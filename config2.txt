@@ -1,0 +1,136 @@
+chromosomes_units=1000000
+chromosomes_reverse=/chr[01]/
+<ideogram>
+    fill=yes
+    label_font=default
+    label_parallel=yes
+    label_radius=dims(image,radius)-60p
+    label_size=45
+    radius=0.90r
+    show_label=yes
+    <spacing>
+        default=0.005r
+    </spacing>
+    stroke_color=dgrey
+    stroke_thickness=2p
+    thickness=0.03r
+</ideogram>
+karyotype=/home/manager/share/cir/chr.info
+<links>
+    bezier_radius=0r
+    bezier_radius_purity=0.75
+    color=black
+    crest=0.5
+    <link>
+        bezier_radius=0r
+        bezier_radius_purity=0.75
+        color=set2-8-qual-1
+        crest=0.5
+        file=/home/manager/share/cir/link.txt
+        radius=0.88r
+        <rules>
+            <rule>
+                color=green
+                condition=var(intrachr)
+            </rule>
+            <rule>
+                color=green
+                condition=var(interchr)
+            </rule>
+        </rules>
+        thickness=8
+        z=20
+    </link>
+    <link>
+        bezier_radius=0r
+        bezier_radius_purity=0.75
+        color=230,230,230,0.2
+        crest=0.5
+        ribbon=yes
+        file=/home/manager/share/cir/genome.txt
+        radius=0.88r
+        <rules>                # 背景区块个性化配置，不同染色体间背景区块的颜色
+            <rule>
+                color=255,225,255,0.2
+                condition=between(chr01,chr02)
+            </rule>
+            <rule>
+                color=102,205,170,0.2
+                condition=between(chr04,chr05)
+            </rule>
+            <rule>
+                color=208,32,114,0.2
+                condition=between(chr01,chr05)
+            </rule>
+            <rule>
+                color=150,0,0,0.2
+                condition=between(chr02,chr03)
+            </rule>
+
+            <rule>
+                condition=var(interchr)
+            </rule>
+        </rules>
+        thickness=1
+        z=15
+    </link>
+    radius=0.40r
+    thickness=1
+</links>
+<plots>
+    <plot>
+        color=set2-8-qual-2
+        file=/home/manager/share/cir/text.txt
+        label_font=light
+        link_color=black
+        link_dims=0p,2p,5p,2p,2p
+        link_thickness=2p
+        r0=0.88r
+        r1=0.99r
+        rpadding=5p
+        show_links=no
+        type=text
+    </plot>
+    type=histogram
+</plots>
+show_tick_labels=yes
+show_ticks=yes
+spacing=10u
+<ticks>
+    color=black
+    format=%d
+    multiplier=1e-6
+    radius=1r
+    thickness=2p
+    <tick>
+        size=10p
+        spacing=5u
+    </tick>
+    <tick>
+        color=black
+        format=%d
+        label_offset=10p
+        label_size=25p
+        show_label=yes
+        size=15p
+        spacing=25u
+        thickness=4p
+    </tick>
+</ticks>
+<colors>
+<<include etc/colors.conf>>
+<<include etc/brewer.conf>>
+#<<include etc/colors_fonts_patterns.conf>>
+#<<include colors.ucsc.conf>>
+#<<include colors.hsv.conf>>
+</colors>
+
+<fonts>
+<<include etc/fonts.conf>>
+</fonts>
+
+<image>
+<<include etc/image.conf>>
+</image>
+<<include etc/housekeeping.conf>>
+

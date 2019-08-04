@@ -1,0 +1,39 @@
+# ----------------------------- 物种间 mcscanx 基因共线性分析 (基于 python 版本的 mcscanx 软件)
+
+软件下载地址 ： https://github.com/tanghaibao/jcvi
+
+所需文件
+
+	gene 位置信息 gff文件中回去
+		
+	CDS.fasta 文件
+
+	基因 CDS文件 只选择一个转录本作为该基因的代表序列 (否则软件会报错) 从CDS文件中进行挑选
+
+
+
+#得到基因组上所有基因的位置信息，bed文件；以及cds序列;这里的两个脚本不在script下，需要自行拷贝；
+perl get_gene_bed.pl -in1 Arabidopsis_thaliana.TAIR10.41.gff3 -out ATH.bed
+perl get_fa_by_id_from_bed.pl ATH.bed Arabidopsis_thaliana.TAIR10.cds.all.fa ATH.cds
+
+##统一成基因ID
+sed  's#\.1##' ATH.cds
+
+
+#同样的道理准备，准备白菜的基因组，bed文件和，cds文件；
+perl get_gene_bed.pl -in1 Brassica_rapa.Brapa_1.0.41.chr.gff3 -out rapa.bed
+perl get_fa_by_id_from_bed.pl rapa.bed Brassica_rapa.Brapa_1.0.cds.all.fa rapa.cds
+
+
+/biosoft/miniconda/miniconda2/bin/python -m jcvi.compara.catalog ortholog ATH rapa --cscore=0.7      # 最重要的是 .anchors 文件(含有两个物种中所有共线性基因对的关系) 和 .simple 文件 (绘图所需文件)
+
+#对共线性区域进行过滤
+/biosoft/miniconda/miniconda2/bin/python -m jcvi.compara.synteny screen --minsize=0 --minspan=30 --simple ATH.rapa.anchors   ATH.rapa.anchors.new
+#绘制共线性图片：准备两个配置文件为输入文件：
+
+/biosoft/miniconda/miniconda2/bin/python -m jcvi.graphics.karyotype  --format=pdf  --figsize=15x5 mcscan_seqid mcscan_layout
+
+
+
+
+# 分别鉴定出两个物种中某一基因家族的 geneID 然后从 .anchors 文件中 挑选出 对应的具有共线性的基因，设置要展示的颜色，追加到 .simple 文件末尾 ----------- 绘图即可

@@ -1,0 +1,5 @@
+# y, xstart, xend, rotation, color, label, va,  bed
+.8,     .2,    .75,       0,      red, ATH, top, ATH.bed(要在当前路径或者绝对路径)
+.2,     .2,    .75,       0,      green, rapa, bottom, rapa.bed(要在当前路径或者绝对路径)
+# edges
+e, 0, 1, ATH.rapa.anchors.simple.c(绘图文件，经过上一步分析可以得到)

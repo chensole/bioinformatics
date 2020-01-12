@@ -37,3 +37,25 @@ perl get_fa_by_id_from_bed.pl rapa.bed Brassica_rapa.Brapa_1.0.cds.all.fa rapa.c
 
 
 # 分别鉴定出两个物种中某一基因家族的 geneID 然后从 .anchors 文件中 挑选出 对应的具有共线性的基因，设置要展示的颜色，追加到 .simple 文件末尾 ----------- 绘图即可
+
+1. 使用  物种间基因家族查找.pl  基于 .anchors 文件和两个个物种基因家族 geneID list 文件，鉴定某个两个物种中基因家族的共线性geneID
+
+
+perl  物种间基因家族查找.pl ../cmo_at/cmo_ERF.txt zm_ERF.txt Cm.zm.anchors >simple
+
+
+
+2. 使用  生成基因家族配置simple文件.pl  将上面得到的 simple文件生成特定的绘图格式
+
+perl   生成基因家族配置simple文件.pl  simple > simple1.txt
+
+
+
+
+
+
+
+
+
+
+

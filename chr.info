@@ -1,0 +1,27 @@
+
+# 染色体配置文件
+ 
+
+chr	-	chr01	Chr1	0	302956453	chr1
+chr	-	chr02	Chr2	0	241307389	chr2
+chr	-	chr03	Chr3	0	232953155	chr3
+chr	-	chr04	Chr4	0	242006640	chr4
+chr	-	chr05	Chr5	0	215148664	chr5
+chr	-	chr06	Chr6	0	165010417	chr6
+
+# 设置：前两列规定，表明时染色体配置文件  第三列：gff 文件实际编号  第四列：你希望在图片上展示的染色体名字  第五列+第六列：染色体长度    第六列：官网上规定每一个 chr 编号对应一种颜色
+
+chr     -       chr01   Chr1    0       302956453       chr1
+chr     -       chr02   Chr2    0       241307389       chr1
+chr     -       chr03   Chr3    0       232953155       chr1
+chr     -       chr04   Chr4    0       242006640       chr1
+chr     -       chr05   Chr5    0       215148664       chr1
+chr     -       chr06   Chr6    0       165010417       chr1
+chr     -       chr06   Chr6    0       302956453       chr2
+chr     -       chr05   Chr5    0       241307389       chr2
+chr     -       chr04   Chr4    0       232953155       chr2
+chr     -       chr03   Chr3    0       242006640       chr2
+chr     -       chr02   Chr2    0       215148664       chr2
+chr     -       chr01   Chr1    0       165010417       chr2
+
+# 上面这个展示物种间的共线性图 染色体的配置文件，两个物种染色体编号顺序要相反

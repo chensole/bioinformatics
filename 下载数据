@@ -1,0 +1,154 @@
+
+
+##1. 从NCBI上面下载nr数据库，不要用wget，相当慢
+
+
+使用 aspera 下载NCBI FTP 站点数据会非常快
+
+ascp -T -l 200M -i ~/.aspera/connect/etc/asperaweb_id_dsa.openssh --host=ftp.ncbi.nih.gov --user=anonftp --mode=recv /blast/db/FASTA/nr.gz ./
+
+###
+Aspera的用法： $ ascp [参数] 目标文件 目的地址
+Aspera的常用参数：
+-T            不进行加密。若不添加此参数，可能会下载不了。
+-i             string 输入私钥，安装 aspera 后有在目录 ~/.aspera/connect/etc/ 下有几个私钥，使用 linux 服务器的时候一般使用 asperaweb_id_dsa.openssh 文件作为私钥。
+--host      string ftp的host名，NCBI的为ftp-private.ncbi.nlm.nih.gov；EBI的为fasp.sra.ebi.ac.uk。
+--user      string 用户名，NCBI的为anonftp，EBI的为era-fasp。
+--mode    string 选择模式，上传为 send，下载为 recv。
+-l             string 设置最大传输速度，比如设置为 200M 则表示最大传输速度为 200m/s。若不设置该参数，则一般可达到10m/s的速度，而设置了，传输速度可以更高。
+
+##2. 从NCBI上面下载分类数据库文件
+
+ascp -T -l 200M -i ~/.aspera/connect/etc/asperaweb_id_dsa.openssh --host=ftp.ncbi.nih.gov --user=anonftp --mode=recv /pub/taxonomy/taxdump.tar.gz ./
+ascp -T -l 200M -i ~/.aspera/connect/etc/asperaweb_id_dsa.openssh --host=ftp.ncbi.nih.gov --user=anonftp --mode=recv /pub/taxonomy/accession2taxid/prot.accession2taxid.gz ./
+
+
+其中taxdump.tar.gz中主要有两个文件很有用
+
+names.dmp 记录物种名及其分类编号
+nodes.dmp 记录分类编号的节点信息
+
+例如 植物大类的编号为 3193
+
+
+
+
+
+### NCBI gene 数据库
+
+https://www.ncbi.nlm.nih.gov/gene/?term=
+
+这个数据库中存储了所有物种的gene 信息
+
+从它所在的FTP站点，可以下载有用的文件
+
+ftp://ftp.ncbi.nih.gov/gene/DATA/
+
+
+常见的有
+	
+	gene2accession.gz  geneID(Entrez ID)与accession(收集的序列大多来自 swissport、RefSeq等)间的对应关系,这个文件是一个非常详细的数据文件
+
+
+	gene2go.gz geneID与Go间的对应关系
+
+
+
+### NCBI taxonmony 数据库
+
+NCBI 中存储了大量的物种，Taxonmony 数据库专门存储每个物种在 NCBI 中的 ID号
+
+
+
+
+
+### 批量下载 SRA 数据  
+
+
+	1. 把要下载的数据 SRR号写入一个文件，如 srr.txt,每行是一个 SRR id
+	2. 利用 SRA toolkit 的 prefetch 下载，并指定下载方式为 ascp 
+
+prefetch -t ascp --ascp-path "/home/chenzhi/.aspera/connect/bin/ascp|/home/chenzhi/.aspera/connect/etc/asperaweb_id_dsa.openssh" --option-file srr.txt -O .
+
+
+
+
+## nr 数据库注释  
+
+
+	整个nr数据库非常大，130多个G，如果想要进行物种注释会消耗大量的时间。这里我推荐使用 diamond 这个工具，可以只进行某一类物种比对，如植物类的
+
+taxmony ID是3193.
+
+
+	1.利用diamond 建库，需要额外提供两个文件（可从NCBI上下载）
+
+		prot.accession2taxid (蛋白accession登录号与taxid的对应关系)
+
+		taxdump文件夹下的nodes.dmp文件
+
+
+	nohup ~/biosoft/diamond makedb -p 30 --taxonmap ../prot.accession2taxid --taxonnodes ../taxdump/nodes.dmp --in nr --db nr_tax &
+
+	
+利用上面这条命令就可以构建索引，且每个索引都有对应的 taxid 号
+
+
+
+	2. 比对
+
+	
+	可以指定 -taxonlist 参数值，即对nr索引中某类生物比对
+
+nohup ~/biosoft/diamond blastp -p 30 -q /date/cjt/ref/CM3.6.1_pep.fasta --db nr_index/nr_tax.dmnd --taxonlist 3193 -f 6 --max-hsps 1 --max-target-seqs 1 -o cme_blast@nr.m6 &
+
+
+	上面是将甜瓜蛋白序列与nr数据库中所有的植物序列比对，比对后即可获得甜瓜蛋白序列与nr数据库相似的蛋白的 accession 登录号
+
+
+	3. 将比对结果结合 gene2accession（NCBI下载） 文件，可得到甜瓜蛋白序列对应 gene symbol,同时可以综合 eggnog-mapper-1.0.3的比对结果，进行总体注释
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

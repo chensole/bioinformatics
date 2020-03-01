@@ -1,0 +1,134 @@
+chromosomes_units=1000000        # 染色体显示单元，一般以 兆b 显示
+chromosomes_reverse=/chr[01]/    
+
+# 染色体配置
+ 
+<ideogram>                
+    fill=yes
+    label_font=default
+    label_parallel=yes
+    label_radius=dims(image,radius)-60p
+    label_size=45
+    radius=0.90r   # 染色体离圆心的位置 0.9 表示离圆心 90% 的位置
+    show_label=yes
+    <spacing>
+        default=0.005r   # 两个染色体间的间隙
+    </spacing>
+    stroke_color=dgrey
+    stroke_thickness=2p
+    thickness=0.03r
+</ideogram>
+karyotype=/home/manager/share/cir/chr.info   # 染色体配置文件路径
+
+
+# 共线性文件配置（基因共线性和区块共线性）
+
+<links>     # 两个共线性文件主配置
+    bezier_radius=0r
+    bezier_radius_purity=0.75
+    color=black
+    crest=0.5
+    <link>   # 基因共线性
+        bezier_radius=0r
+        bezier_radius_purity=0.75
+        color=set2-8-qual-1
+        crest=0.5
+        file=/home/manager/share/cir/link.txt        # 基因共线性配置文件路径
+        radius=0.88r
+        <rules>
+            <rule>
+                color=red
+                condition=var(intrachr)    # 染色体内部共线性颜色配置
+            </rule>
+            <rule>
+                color=red
+                condition=var(interchr)   # 染色体间共线性颜色配置
+            </rule>
+        </rules>
+        thickness=6
+        z=20
+    </link>
+    <link>   # 区块共线性
+        bezier_radius=0r
+        bezier_radius_purity=0.75
+        color=230,230,230,0.2   #背景区块颜色，此处设置的是灰色，透明度为 0.2
+        crest=0.5
+        ribbon=yes         # 区块连线设置为条带状
+        file=/home/manager/share/cir/genome.txt       # 区块共线性配置文件路径
+        radius=0.88r
+        <rules>
+            <rule>
+                condition=var(intrachr)
+            </rule>
+            <rule>
+                condition=var(interchr)
+            </rule>
+        </rules>
+        thickness=1
+        z=15
+    </link>
+    radius=0.40r
+    thickness=1
+</links>
+
+# 基因名注释配置
+<plots>
+    <plot>
+        color=set2-8-qual-2
+        file=/home/manager/share/cir/text.txt     #基因名注释文件路径
+        label_font=light
+        link_color=black
+        link_dims=0p,2p,5p,2p,2p
+        link_thickness=2p
+        r0=0.88r
+        r1=0.99r
+        rpadding=5p
+        show_links=no
+        type=text
+    </plot>
+    type=histogram
+</plots>
+show_tick_labels=yes
+show_ticks=yes
+spacing=10u
+
+# 染色体刻度的设置
+
+<ticks>
+    color=black
+    format=%d
+    multiplier=1e-6
+    radius=1r
+    thickness=2p
+    <tick>
+        size=10p
+        spacing=5u
+    </tick>
+    <tick>
+        color=black
+        format=%d
+        label_offset=10p
+        label_size=25p
+        show_label=yes
+        size=15p
+        spacing=25u
+        thickness=4p
+    </tick>
+</ticks>
+<colors>
+<<include etc/colors.conf>>
+<<include etc/brewer.conf>>
+#<<include etc/colors_fonts_patterns.conf>>
+#<<include colors.ucsc.conf>>
+#<<include colors.hsv.conf>>
+</colors>
+
+<fonts>
+<<include etc/fonts.conf>>
+</fonts>
+
+<image>
+<<include etc/image.conf>>
+</image>
+<<include etc/housekeeping.conf>>
+

@@ -5,17 +5,18 @@
 
 #--------------------------  1. 搜索物种的基因家族信息 ----------------------------------------
 
+Things required:
 所需文件：
 
-	基因组 fasta 文件
+	基因组 fasta 文件  whole genome about your species
 	
-	基因组 CDS fasta 文件
+	基因组 CDS fasta 文件   CDS file
 
-	基因组 蛋白质 fasta 文件
+	基因组 蛋白质 fasta 文件 protein file
 
-	基因注释文件 gff
+	基因注释文件 gff    gff file
 
-	基因家族 pfam 文件
+	基因家族 pfam 文件   your protein PFAM accession number (.hmm file)
 
 
 #下载拟南芥基因组信息
@@ -24,8 +25,10 @@
 #wget ftp://ftp.ensemblgenomes.org/pub/plants/release-41/fasta/arabidopsis_thaliana/pep/Arabidopsis_thaliana.TAIR10.pep.all.fa.gz
 #wget ftp://ftp.ensemblgenomes.org/pub/plants/release-41/gff3/arabidopsis_thaliana/Arabidopsis_thaliana.TAIR10.41.gff3.gz
 #
-#解压压缩文件
+#解压压缩文件 decompressed gz file
 #gunzip *gz
+
+# optional step (just change some file format)
 
 #处理GFF 文件里面ID中一些不必要的信息，gene:  transcript: 删除；与蛋白质中的ID保持一致：Arabidopsis_thaliana.TAIR10.pep.all.fa 
 #sed -i 's#gene:##' Arabidopsis_thaliana.TAIR10.41.gff3
